@@ -1,0 +1,10 @@
+django
+gunicorn  # For production WSGI server
+psycopg2-binary  # PostgreSQL support
+pillow  # Image processing
+django-crispy-forms  # Better form styling
+django-environ  # Environment variable management
+whitenoise  # Serve static files in production
+django-debug-toolbar  # Debugging tools (use in development)
+django-extensions  # Development utilities like shell_plus
+django-widget-tweaks  # Fine-tune form field rendering in templates

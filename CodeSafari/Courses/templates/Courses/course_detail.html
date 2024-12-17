@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <style>
+        /* Text Styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #444;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        ul {
+            padding-left: 0;
+            text-align: center;
+        }
+
+        li {
+            font-size: 1rem;
+            color: #333;
+            line-height: 1.8;
+            margin: 5px 0;
+        }
+
+        /* Empty List Message */
+        li.no-chapters {
+            font-style: italic;
+            color: #E74C3C;
+        }
+    </style>
+
+    <h1>{{ course.title }}</h1>
+    <h2>{{ course.description }}</h2>
+
+    <h3>Chapters:</h3>
+    <ul>
+        {% for chapter in chapters %}
+            <li>{{ chapter.title }}</li>
+        {% empty %}
+            <li class="no-chapters">No chapters available for this course.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

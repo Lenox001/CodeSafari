@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Course(models.Model):
@@ -70,3 +71,49 @@ class Note(models.Model):
     
     def __str__(self):
         return f"{self.title} (Note:{self.section.title})"
+
+
+class Instructor(models.Model):
+    # Basic details
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+
+    # Bio and experience
+    bio = models.TextField(blank=True, null=True)
+    experience = models.IntegerField(help_text="Years of teaching experience", default=0)
+
+    # Linked to course
+    courses = models.ManyToManyField('Course', related_name='instructors', blank=True)
+
+    # Profile picture (optional)
+    profile_picture = models.ImageField(upload_to='instructors/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        verbose_name = "Instructor"
+        verbose_name_plural = "Instructors"
+        
+        
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    role = models.CharField(max_length=20, choices=[('student', 'Student'), ('instructor', 'Instructor')], default='student')
+    is_approved_instructor = models.BooleanField(default=False)  # New field for approval
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    date_of_birth = models.DateField(null=True, blank=True)
+    enrollment_date = models.DateField(auto_now_add=True)
+    # Add any other fields related to students
+
+    def __str__(self):
+        return self.user.username

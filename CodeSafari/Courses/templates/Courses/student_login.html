@@ -1,0 +1,19 @@
+
+{% block content %}
+  <h2>Student Login</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <p>Don't have an account? <a href="{% url 'register_student' %}">Register here</a></p>
+{% endblock %}

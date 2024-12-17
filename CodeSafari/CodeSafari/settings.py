@@ -118,6 +118,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # If you have a 'static' directory at the root of your project
+]
+
+# Directory where static files will be collected (used in production)
+STATIC_ROOT = BASE_DIR / "staticfiles"  # This is where static files will be collected when you run `collectstatic`
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

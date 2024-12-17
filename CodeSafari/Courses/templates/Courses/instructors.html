@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Instructors</h1>
+    <div class="instructors-list">
+        {% for instructor in instructors %}
+            <div class="instructor-card">
+                <h2>{{ instructor.first_name }} {{ instructor.last_name }}</h2>
+                <p><strong>Email:</strong> {{ instructor.email }}</p>
+                <p><strong>Experience:</strong> {{ instructor.experience }} years</p>
+
+                <h3>Courses Taught:</h3>
+                <ul>
+                    {% for course in instructor.courses.all %}
+                        <li>
+                            <a href="{% url 'details' slug=course.slug %}">{{ course.title }}</a>
+                        </li>
+                    {% empty %}
+                        <li>No courses available for this instructor.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% empty %}
+            <p>No instructors available.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

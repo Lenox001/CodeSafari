@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% for course in courses %}
+        <h1>{{ course.title }}</h1>
+        <h3>{{ course.description }}</h3>
+        <a href="{% url 'details' slug=course.slug %}">
+            <button>Read More</button>
+        </a>
+    {% endfor %}
+{% endblock content %}

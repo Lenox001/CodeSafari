@@ -1,0 +1,33 @@
+{% extends "second_layout.html" %}
+
+{% block content %}
+  <div class="profile-container">
+    <h1>{{ user.username }}'s Profile</h1>
+
+    {% if profile %}
+      <div class="profile-details">
+        {% if profile.profile_picture %}
+          <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic" />
+        {% endif %}
+        
+        <p><strong>Name:</strong> {{ profile.first_name }} {{ profile.last_name }}</p>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>Phone:</strong> {{ profile.phone_number|default:"No phone number provided." }}</p>
+        <p><strong>Bio:</strong> {{ profile.bio|default:"No bio available." }}</p>
+        <p><strong>Experience:</strong> {{ profile.experience }} years</p>
+      </div>
+    {% else %}
+      <p>No profile available.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Update Profile Form -->
+    <h2>Update Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+  </div>
+{% endblock %}

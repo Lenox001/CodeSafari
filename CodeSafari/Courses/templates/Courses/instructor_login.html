@@ -1,0 +1,40 @@
+{% block content %}
+  <div class="login-container">
+    <div class="login-card">
+      <h2 class="login-header">Instructor Login</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn-submit">Login</button>
+      </form>
+
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="message-item">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <p class="register-link">Don't have an account? <a href="{% url 'register_instructor' %}">Register here</a></p>
+    </div>
+  </div>
+
+  <!-- Background Animations (Icons and effects) -->
+  <div class="login-icons">
+    <div class="icon" style="top: 5%; left: 5%;">
+      <i class="fas fa-chalkboard-teacher"></i>
+    </div>
+    <div class="icon" style="top: 20%; left: 80%;">
+      <i class="fas fa-book"></i>
+    </div>
+    <div class="icon" style="top: 50%; left: 50%;">
+      <i class="fas fa-laptop-code"></i>
+    </div>
+  </div>
+  <style>
+    
+  </style>
+{% endblock %}

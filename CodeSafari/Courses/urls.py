@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.home, name='home'),
     path('courses/', views.courses, name='courses'),
     path('course/<slug:slug>/', views.course_detail, name='details'),
     path('instructors/', views.instructors, name='instructors'),
@@ -15,7 +14,6 @@ urlpatterns = [
     path('login/', views.login_redirect_view, name='login'),
     path('login/instructor/', views.instructor_login, name='instructor_login'),
     path('login/student/', views.student_login, name='student_login'),
-    path('instructor/',views.instructor_home,name='instructor_home'),
     path('instructor/dashboard/', views.instructor_dashboard, name='instructor_dashboard'),
     path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
     path('instructor/courses/', views.instructor_courses, name='instructor_courses'),

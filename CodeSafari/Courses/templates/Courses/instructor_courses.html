@@ -2,18 +2,91 @@
 
 {% block content %}
 <div class="instructor-profile">
-  <h1>My Courses</h1>
-
-  <
+  <h1 class="profile-title">My Courses</h1>
 
   <!-- Instructor's Courses -->
-  <h2>Courses I Am Teaching</h2>
-  <ul>
+  <h2 class="courses-heading">Courses I Am Teaching</h2>
+  <ul class="courses-list">
     {% for course in courses %}
-      <li>{{ course.name }} - {{ course.description }}</li>
+      <li class="course-item">{{ course.title }} - {{ course.description }}</li>
     {% empty %}
-      <li>No courses assigned yet.</li>
+      <li class="no-courses">No courses assigned yet.</li>
     {% endfor %}
   </ul>
 </div>
+
+
+<style>
+  /* Instructor Profile Container */
+  .instructor-profile {
+    background-color: #2c2f38; /* Dark background for profile */
+    color: #f1f1f1; /* Light text color */
+    padding: 30px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+  }
+
+  /* Profile Title */
+  .profile-title {
+    text-align: center;
+    font-size: 2rem;
+    color: #00bcd4; /* Light cyan for profile title */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Courses Section Heading */
+  .courses-heading {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #28a745; /* Green for course heading */
+    text-align: center;
+  }
+
+  /* List of Courses */
+  .courses-list {
+    padding-left: 20px;
+    font-size: 1.1rem;
+  }
+
+  .course-item {
+    background-color: #444b56; /* Dark background for each course item */
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  /* No Courses Message */
+  .no-courses {
+    text-align: center;
+    font-style: italic;
+    color: #ff3b30; /* Red color for error/no data */
+    font-size: 1.2rem;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .instructor-profile {
+      width: 95%;
+      padding: 20px;
+    }
+
+    .profile-title {
+      font-size: 1.5rem;
+    }
+
+    .courses-heading {
+      font-size: 1.5rem;
+    }
+
+    .course-item {
+      font-size: 1rem;
+    }
+  }
+</style>
 {% endblock %}

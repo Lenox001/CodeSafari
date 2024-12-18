@@ -96,16 +96,15 @@
       <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
           <!-- Authenticated user links -->
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">
-              <i class="fas fa-home"></i> Home
-            </a>
-          </li>
-          <li class="nav-item">
+            <li class="nav-item">
             <a class="nav-link" href="{% url 'student_dashboard' %}">
               <i class="fas fa-user"></i> Dashboard
             </a>
           </li>
+       
+
+          </li>
+         
           <li class="nav-item">
             <a class="nav-link" href="{% url 'courses' %}">
               <i class="fas fa-book"></i> Courses
@@ -121,11 +120,7 @@
               <i class="fas fa-user"></i> Profile
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fas fa-cogs"></i> Settings
-            </a>
-          </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">
               <i class="fas fa-sign-out-alt"></i> Logout

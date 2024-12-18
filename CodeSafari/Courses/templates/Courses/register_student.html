@@ -1,11 +1,195 @@
-{% extends "layout.html" %}
-
 {% block content %}
-    <h2>Student Registration</h2>
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+  <div class="card shadow-lg animated-card">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Student Registration</h2>
+      <p class="text-center text-muted mb-4">Join us as a student and start your learning journey today!</p>
 
-    <form method="POST" enctype="multipart/form-data">
+      <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Register as Student</button>
-    </form>
+        <button type="submit" class="btn btn-gradient w-100 py-3 mt-3">Register Now</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="animated-background">
+  <i class="icon fas fa-user-graduate"></i>
+  <i class="icon fas fa-book"></i>
+  <i class="icon fas fa-laptop"></i>
+</div>
+
+<style>
+/* General Container and Layout */
+.container {
+  background: linear-gradient(135deg, #2d2d2d, #4d4d4d); /* Darker gradient for a more modern look */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Card Styling */
+.card {
+  width: 100%;
+  max-width: 600px; /* Adjusted width for better layout */
+  height: 450px; /* Slightly taller card for better content fit */
+  border-radius: 15px;
+  background: #3b3b3b;
+  color: #ffffff;
+  box-shadow: 0px 6px 30px rgba(255, 193, 7, 0.3); /* Yellow shadow */
+  border: 1px solid rgba(255, 193, 7, 0.4); /* Yellow border */
+  animation: fadeIn 1.5s ease-out, float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 1; /* Card above background */
+}
+
+/* Card Body Styling */
+.card-body {
+  padding: 1.5rem; /* Reduced padding for compactness */
+  height: 100%;
+  overflow-y: auto; /* Allow scrolling when content overflows */
+  max-height: 400px; /* Fixed maximum height to avoid card stretching */
+  position: relative;
+}
+
+/* Heading Styling */
+h2 {
+  font-size: 1.8rem; /* Adjusted size for better fit */
+  font-weight: 600;
+  color: #ffc107; /* Yellow text */
+  text-shadow: 0 0 8px #ffc107, 0 0 16px #ffcc00;
+}
+
+/* Button Styling */
+.btn-gradient {
+  background: linear-gradient(45deg, #ffcc00, #ffc107); /* Yellow gradient */
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 30px;
+  padding: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-gradient:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 25px rgba(255, 193, 7, 0.5);
+}
+
+.btn-gradient:active {
+  transform: scale(0.95);
+}
+
+/* Input Styling */
+input, select, textarea {
+  font-size: 1rem; /* Reduced font size for better fit */
+  padding: 10px; /* Reduced padding for compactness */
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 12px; /* Reduced margin to make it more compact */
+  background: #4d4d4d;
+  color: #ffffff;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #ffc107;
+  box-shadow: 0px 0px 10px rgba(255, 193, 7, 0.5);
+  outline: none;
+}
+
+/* Animated Background */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Background behind the card */
+  overflow: hidden;
+}
+
+.icon {
+  position: absolute;
+  font-size: 3.5rem;
+  color: rgba(255, 193, 7, 0.1);
+  animation: drift 6s ease-in-out infinite;
+}
+
+.icon:nth-child(1) {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.icon:nth-child(2) {
+  top: 30%;
+  left: 75%;
+  animation-delay: 2s;
+}
+
+.icon:nth-child(3) {
+  top: 60%;
+  left: 50%;
+  animation-delay: 4s;
+}
+
+@keyframes drift {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  input, select, textarea, button {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .icon {
+    font-size: 2rem;
+  }
+}
+</style>
+
 {% endblock %}

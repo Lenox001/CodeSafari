@@ -9,8 +9,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponseForbidden
 
 # Create your views here.
-def home(request):
-    return render(request, 'Courses/home.html')
+
 
 def courses(request):
     courses = Course.objects.all()
@@ -27,8 +26,17 @@ def instructors(request):
 
 def user_profile(request):
     user = request.user
+    # Retrieve the user's profile
     profile = Profile.objects.filter(user=user).first()
-    return render(request, 'Courses/profile.html', {'user': user, 'profile': profile})
+
+    # Retrieve the student's information, assuming the user is also a student
+    student = Student.objects.filter(user=user).first()
+
+    return render(request, 'Courses/profile.html', {
+        'user': user,
+        'profile': profile,
+        'student': student
+    })
 
 from django.shortcuts import redirect
 
@@ -200,8 +208,7 @@ def instructor_profile(request):
 
     return render(request, 'Courses/instructor_profile.html', {'form': form, 'profile': profile})
 
-def instructor_home(request):
-    return render(request,'Courses/instructor_home.html')
+
 
 @login_required
 def instructor_courses(request):

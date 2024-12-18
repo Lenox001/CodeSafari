@@ -1,11 +1,116 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    {% for course in courses %}
-        <h1>{{ course.title }}</h1>
-        <h3>{{ course.description }}</h3>
-        <a href="{% url 'details' slug=course.slug %}">
-            <button>Read More</button>
-        </a>
-    {% endfor %}
-{% endblock content %}
+    <div class="courses-container">
+        {% for course in courses %}
+            <div class="course-item">
+                <h1 class="course-title">{{ course.title }}</h1>
+                <p class="course-description">{{ course.description }}</p>
+                <a href="{% url 'details' slug=course.slug %}">
+                    <button class="btn-read-more">Read More</button>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        /* Main container for the courses - center content */
+        .courses-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 30px;
+            justify-content: center; /* Vertically center the content */
+            align-items: center; /* Horizontally center the content */
+            animation: fadeIn 1s ease-out forwards; /* Fade-in animation */
+        }
+
+        /* Individual course item with dark theme */
+        .course-item {
+            background-color: #333;  /* Dark background */
+            color: white;  /* Light text color */
+            padding: 20px;
+            border-radius: 12px;  /* Soft edges */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;  /* Initially hidden */
+            transform: translateY(20px);  /* Start slightly below */
+            animation: fadeInUp 0.8s ease-out forwards;  /* Fade-in with smooth upward movement */
+            transition: all 0.3s ease-in-out;  /* Smooth hover transition */
+            width: 75%;  /* Set width to 75% */
+            margin: 0 auto;  /* Center the cards horizontally */
+        }
+
+        /* Hover effect: subtle movement and shadow */
+        .course-item:hover {
+            transform: translateY(-5px);  /* Slight upward shift */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);  /* Stronger shadow */
+        }
+
+        /* Title and header */
+        .course-title {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        /* Description styling */
+        .course-description {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        /* Button styling */
+        .btn-read-more {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-read-more:hover {
+            background-color: #0056b3;
+        }
+
+        /* Fade-in animation for the container */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Fade-in with upward movement for each card */
+        @keyframes fadeInUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .courses-container {
+                padding: 15px;
+            }
+
+            .course-item {
+                width: 90%;  /* Adjust width for smaller screens */
+                padding: 15px;
+            }
+
+            .course-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+{% endblock %}

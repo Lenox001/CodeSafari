@@ -96,11 +96,7 @@
       <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
           <!-- Authenticated Instructor-Specific Links -->
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'instructor_home' %}">
-              <i class="fas fa-home"></i> Home
-            </a>
-          </li>
+        
           <li class="nav-item">
             <a class="nav-link" href="{% url 'instructor_dashboard' %}">
               <i class="fas fa-user"></i> Dashboard
@@ -139,12 +135,7 @@
             </a>
           </li>
         {% endif %}
-        <!-- Settings link available for both authenticated and guest users -->
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="fas fa-cogs"></i> Settings
-          </a>
-        </li>
+        
       </ul>
     </div>
   </div>

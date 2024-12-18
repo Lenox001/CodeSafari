@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Chapter, Section, Note, Instructor, Profile
+from .models import Course, Chapter, Section, Note, Instructor, Profile, Student  # Import the Student model
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -37,7 +37,6 @@ class InstructorAdmin(admin.ModelAdmin):
     search_fields = ['first_name', 'last_name', 'email']
 
 # Register Profile model
-# admin.py
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio', 'profile_picture', 'is_approved_instructor')  # Include the approval flag
@@ -47,6 +46,12 @@ class ProfileAdmin(admin.ModelAdmin):
     # Allow admins to edit the approval status directly from the profile admin
     list_editable = ('is_approved_instructor',)
 
+# Register Student model
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'date_of_birth', 'enrollment_date')  # Display fields
+    search_fields = ('user__username',)  # Search by username
+    list_filter = ('enrollment_date',)  # Filter by enrollment date
 
 # Customize User model display (if needed)
 class CustomUserAdmin(UserAdmin):
@@ -59,9 +64,6 @@ class CustomUserAdmin(UserAdmin):
     list_display = UserAdmin.list_display + ('get_profile',)
     search_fields = UserAdmin.search_fields + ('username', 'email')
     list_filter = UserAdmin.list_filter + ('is_active',)
-    
-    
-
 
 # Unregister the default User admin and register your customized version
 admin.site.unregister(User)

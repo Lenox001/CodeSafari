@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Chapter, Section, Note, Instructor, Profile, Student  # Import the Student model
+from .models import Course, Chapter, Section, Note, Instructor, Profile, Student, Enrollment  # Import Enrollment model
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
@@ -52,6 +52,13 @@ class StudentAdmin(admin.ModelAdmin):
     list_display = ('user', 'date_of_birth', 'enrollment_date')  # Display fields
     search_fields = ('user__username',)  # Search by username
     list_filter = ('enrollment_date',)  # Filter by enrollment date
+
+# Register Enrollment model
+@admin.register(Enrollment)
+class EnrollmentAdmin(admin.ModelAdmin):
+    list_display = ('student', 'course', 'enrollment_date')  # Display relevant fields
+    search_fields = ('student__user__username', 'course__title')  # Search by student's username and course title
+    list_filter = ('enrollment_date', 'course')  # Filter by enrollment date and course
 
 # Customize User model display (if needed)
 class CustomUserAdmin(UserAdmin):

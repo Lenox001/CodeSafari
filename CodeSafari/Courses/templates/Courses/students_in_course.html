@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>Students Enrolled in {{ course.title }}</h1>
+  <h2>{{ course.description }}</h2>
+
+  <h3>Enrolled Students:</h3>
+  <ul>
+    {% for enrollment in enrollments %}
+      <li>
+        {{ enrollment.student.user.username }} - {{ enrollment.student.user.email }}
+        <small>Enrolled on: {{ enrollment.enrollment_date|date:"F j, Y" }}</small>
+      </li>
+    {% empty %}
+      <li>No students are currently enrolled in this course.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'details' course.slug %}">Back to Course Details</a>
+{% endblock content %}

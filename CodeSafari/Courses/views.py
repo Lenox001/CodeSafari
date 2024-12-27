@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Course, Chapter, Section, Note, Instructor, Student, Profile
+from .models import Course, Chapter, Section, Note, Instructor, Student, Profile,Enrollment
 from django.contrib.auth.models import User
 from .forms import InstructorForm, StudentRegistrationForm,CustomAuthenticationForm,InstructorProfileForm
 from django.contrib.auth import authenticate, login
@@ -10,13 +10,29 @@ from django.http import HttpResponseForbidden
 
 # Create your views here.
 
-
 def courses(request):
     courses = Course.objects.all()
-    return render(request, 'Courses/courses.html', {'courses': courses})
+    user = request.user
+    student = Student.objects.filter(user=user).first()
 
+    # Pass student object to template to check for enrollments
+    return render(request, 'Courses/courses.html', {'courses': courses, 'student': student})
+
+
+@login_required
 def course_detail(request, slug):
     course = get_object_or_404(Course, slug=slug)
+    user = request.user
+    try:
+        student = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        student = None
+
+    # Check if the student is enrolled in the course
+    if student and not course.enrollments.filter(student=student).exists():
+        # If the student is not enrolled, show an error or forbid access
+        return HttpResponseForbidden("You are not enrolled in this course.")
+
     chapters = course.chapters.all()
     return render(request, 'Courses/course_detail.html', {'course': course, 'chapters': chapters})
 
@@ -153,16 +169,29 @@ def student_login(request):
 
     return render(request, 'Courses/student_login.html', {'form': form})
 
-
 @login_required
 def instructor_dashboard(request):
-    # Instructor dashboard logic here
-    return render(request, 'Courses/instructor_dashboard.html')
+    return render(request, 'Courses/instructor_dashboard.html', {'courses': courses})
 
 @login_required
 def student_dashboard(request):
-    # Student dashboard logic here
-    return render(request, 'Courses/student_dashboard.html')
+    user = request.user
+    try:
+        student = Student.objects.get(user=user)  # Student should already exist
+    except Student.DoesNotExist:
+        # Handle case where student profile is missing
+        messages.error(request, "Student profile not found. Please contact support.")
+        return redirect('student_login')  # Redirect to the student login page or another appropriate page
+
+    # Get the courses the student is enrolled in using the reverse relation
+    enrolled_courses = student.enrollments.all()  # Access enrollments via the reverse relation
+
+    # Pass the enrolled courses to the template
+    return render(request, 'Courses/student_dashboard.html', {
+        'student': student,
+        'enrolled_courses': enrolled_courses
+    })
+
 
 def custom_logout(request):
     logout(request)
@@ -216,7 +245,7 @@ def instructor_courses(request):
     try:
         instructor = Instructor.objects.get(email=request.user.email)
     except Instructor.DoesNotExist:
-        return render(request, 'error.html', {'message': 'Instructor profile not found.'})
+        return render(request, {'message': 'Instructor profile not found.'})
 
     # Fetch courses taught by the instructor
     courses = instructor.courses.all()
@@ -230,3 +259,22 @@ def instructor_courses(request):
     
 def forbidden(request):
     return render(request, 'Courses/forbidden.html') 
+
+
+@login_required
+def enroll_in_course(request, course_slug):
+    try:
+        student = request.user.student  # Check if the user has a student profile
+    except Student.DoesNotExist:
+        # Show an error message if no student profile exists
+        messages.error(request, "You need to create a student profile to enroll in courses.")
+        return redirect('student_dashboard')  # Redirect to student dashboard or other page
+    
+    course = get_object_or_404(Course, slug=course_slug)
+
+    # Enroll the student in the course
+    if not course.enrollments.filter(student=student).exists():
+        course.enrollments.create(student=student)
+
+    return redirect('details', slug=course_slug)  # Redirect to the course details page after enrollment
+

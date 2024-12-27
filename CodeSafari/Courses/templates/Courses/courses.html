@@ -1,14 +1,29 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="courses-container">
+   <div class="courses-container">
         {% for course in courses %}
             <div class="course-item">
                 <h1 class="course-title">{{ course.title }}</h1>
                 <p class="course-description">{{ course.description }}</p>
+
                 <a href="{% url 'details' slug=course.slug %}">
                     <button class="btn-read-more">Read More</button>
                 </a>
+
+                {% if user.is_authenticated %}
+                    {% if not enrollment_status.course.id %}
+                        <a href="{% url 'enroll_in_course' course_slug=course.slug %}">
+                            <button class="btn-enroll">Enroll</button>
+                        </a>
+                    {% else %}
+                        <button class="btn-enrolled" disabled>Enrolled</button>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}">
+                        <button class="btn-enroll">Login to Enroll</button>
+                    </a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
@@ -75,6 +90,33 @@
             background-color: #0056b3;
         }
 
+        /* Login to Enroll button */
+        .btn-enroll {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-enroll:hover {
+            background-color: #218838;
+        }
+
+        /* Enrolled button styling */
+        .btn-enrolled {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: not-allowed;
+        }
+
         /* Fade-in animation for the container */
         @keyframes fadeIn {
             0% {
@@ -110,6 +152,18 @@
 
             .course-title {
                 font-size: 1.6rem;
+            }
+
+            .btn-enroll {
+                width: 100%;
+                padding: 12px 0;
+                font-size: 1.1rem;
+            }
+
+            .btn-read-more {
+                width: 100%;
+                padding: 12px 0;
+                font-size: 1.1rem;
             }
         }
     </style>

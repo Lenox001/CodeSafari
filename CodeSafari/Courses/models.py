@@ -117,3 +117,12 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Enrollment(models.Model):
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, related_name='enrollments')  # Ensure related_name is set
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='enrollments')
+    enrollment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.user.username} enrolled in {self.course.title}"
+

@@ -1,1 +1,21 @@
 {% extends "layout.html" %}
+{% block content %}
+    <h1>Welcome to your Dashboard, {{ student.user.first_name }}!</h1>
+
+    <h2>Your Enrolled Courses</h2>
+    <ul>
+        {% if enrolled_courses %}
+            {% for enrollment in enrolled_courses %}
+                <li>
+                    <a href="{% url 'details' slug=enrollment.course.slug %}">
+                        {{ enrollment.course.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>You are not enrolled in any courses yet.</p>
+        {% endif %}
+    </ul>
+
+    <a href="{% url 'courses' %}">Browse All Courses</a>
+{% endblock %}
